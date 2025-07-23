@@ -3,12 +3,10 @@ import { MusicPlayer } from '../components/MusicPlayer';
 import { SoundEffects } from '../components/SoundEffects';
 
 export class AudioManager {
-    private scene: Phaser.Scene;
     private musicPlayer: MusicPlayer;
     private soundEffects: SoundEffects;
 
     constructor(scene: Phaser.Scene) {
-        this.scene = scene;
         this.musicPlayer = new MusicPlayer(scene);
         this.soundEffects = new SoundEffects(scene);
     }
@@ -26,6 +24,8 @@ export class AudioManager {
     }
 
     adjustVolume(sound: Phaser.Sound.BaseSound, volume: number) {
-        sound.setVolume(volume);
+        if ('setVolume' in sound) {
+            (sound as any).setVolume(volume);
+        }
     }
 }

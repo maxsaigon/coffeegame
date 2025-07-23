@@ -3,7 +3,7 @@
  * AI-driven customer behaviors based on real coffee consumer psychology
  */
 
-import type { CustomerProfile, FlavorProfile } from '../types/GameTypes';
+import type { CustomerProfile, CoffeeQualityScore } from '../types/GameTypes';
 
 export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
   casual_drinker: {
@@ -18,7 +18,8 @@ export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
       brandLoyalty: 0.3,
       adventurousness: 0.2,
       patience: 0.8,
-      moodStability: 0.6
+      moodStability: 0.6,
+      priceFlexibility: 0.5
     },
     
     preferences: {
@@ -117,7 +118,8 @@ export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
       brandLoyalty: 0.4,
       adventurousness: 0.7,
       patience: 0.6,
-      moodStability: 0.7
+      moodStability: 0.7,
+      priceFlexibility: 0.6
     },
     
     preferences: {
@@ -216,7 +218,8 @@ export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
       brandLoyalty: 0.8,
       adventurousness: 0.3,
       patience: 0.4,
-      moodStability: 0.5
+      moodStability: 0.5,
+      priceFlexibility: 0.3
     },
     
     preferences: {
@@ -315,7 +318,8 @@ export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
       brandLoyalty: 0.5,
       adventurousness: 0.4,
       patience: 0.7,
-      moodStability: 0.8
+      moodStability: 0.8,
+      priceFlexibility: 0.4
     },
     
     preferences: {
@@ -414,7 +418,8 @@ export const CUSTOMER_PROFILES: { [key: string]: CustomerProfile } = {
       brandLoyalty: 0.7,
       adventurousness: 0.3,
       patience: 0.3, // Always in a hurry
-      moodStability: 0.4 // Stress affects mood
+      moodStability: 0.4, // Stress affects mood
+      priceFlexibility: 0.7
     },
     
     preferences: {
@@ -570,9 +575,10 @@ export class CustomerAI {
   }
   
   static selectRandomDialogue(customer: CustomerProfile, category: string, subcategory?: string): string {
+    const dialogue = customer.dialogue as any; // Type assertion for flexible dialogue access
     const dialogues = subcategory 
-      ? customer.dialogue[category][subcategory]
-      : customer.dialogue[category];
+      ? dialogue[category][subcategory]
+      : dialogue[category];
     
     if (!dialogues || dialogues.length === 0) return "...";
     
@@ -583,7 +589,7 @@ export class CustomerAI {
     return Math.random() < customer.behavior.visitFrequency;
   }
   
-  static calculateRepeatOrder(customer: CustomerProfile, lastOrder: any): boolean {
+  static calculateRepeatOrder(customer: CustomerProfile, _lastOrder: any): boolean {
     return Math.random() < customer.behavior.orderPatterns.repeatCustomer;
   }
 }

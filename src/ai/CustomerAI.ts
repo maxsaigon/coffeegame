@@ -6,10 +6,8 @@ export class CustomerAI {
     private preferenceEngine: PreferenceEngine;
     private personalityTraits: PersonalityTraits;
     private dialogueSystem: DialogueSystem;
-    private scene: Phaser.Scene;
 
-    constructor(scene: Phaser.Scene, dialogueSystem: DialogueSystem) {
-        this.scene = scene;
+    constructor(_scene: Phaser.Scene, dialogueSystem: DialogueSystem) {
         this.preferenceEngine = new PreferenceEngine();
         this.personalityTraits = new PersonalityTraits();
         this.dialogueSystem = dialogueSystem;

@@ -16,7 +16,7 @@ export class RoastingSimulation {
         this.roastTime = 0;
     }
 
-    update(time: number, delta: number) {
+    update(_time: number, delta: number) {
         this.temperatureController.update(delta);
         this.roastTime += delta;
 

@@ -158,18 +158,99 @@ export interface CustomerRelationship {
   negotiationWillingness: number; // 0-10 (flexible on price/terms)
 }
 
+export interface CoffeeBeanVariety {
+  id: string;
+  name: string;
+  origin: string;
+  characteristics: {
+    size: 'small' | 'medium' | 'large';
+    density: 'low' | 'medium' | 'high';
+    processingMethod: 'washed' | 'natural' | 'honey';
+    altitude: number; // meters above sea level
+  };
+  flavorProfile: {
+    acidity: number;    // 1-10
+    body: number;       // 1-10
+    sweetness: number;  // 1-10
+    notes: string[];    // Primary flavor notes
+  };
+  price: number;        // Price per pound
+  rarity: 'common' | 'uncommon' | 'rare' | 'exotic';
+}
+
 export interface CustomerProfile {
   id: string;
   name: string;
+  type: 'casual' | 'enthusiast' | 'purist' | 'health_focused' | 'professional';
   avatar: string;
-  background: string;
-  type: 'home_brewer' | 'cafe_owner' | 'roastery' | 'corporate' | 'export';
-  experience: 'novice' | 'intermediate' | 'expert' | 'professional';
-  loyaltyTier: 'new' | 'regular' | 'vip' | 'partner';
-  spendingPower: 'budget' | 'moderate' | 'premium' | 'luxury';
-  preferences: CustomerPreferences;
-  economics: CustomerEconomics;
-  relationship: CustomerRelationship;
+  
+  psychology: {
+    priceConsciousness: number; // 0-1
+    qualityExpectation: number; // 0-1
+    brandLoyalty: number; // 0-1
+    adventurousness: number; // 0-1
+    patience: number; // 0-1
+    moodStability: number; // 0-1
+    priceFlexibility: number; // 0-1
+  };
+  
+  preferences: {
+    weights: {
+      price: number;
+      taste: number;
+      aroma: number;
+      body: number;
+      balance: number;
+    };
+    flavorProfile: {
+      acidity: { min: number; max: number; ideal: number };
+      bitterness: { min: number; max: number; ideal: number };
+      sweetness: { min: number; max: number; ideal: number };
+      body: { min: number; max: number; ideal: number };
+    };
+    roastLevel: { min: number; max: number; ideal: number };
+    origins: string[];
+    avoidOrigins: string[];
+    maxPrice: number;
+    preferredVolume: number;
+  };
+  
+  behavior: {
+    visitFrequency: number;
+    orderPatterns: {
+      repeatCustomer: number;
+      timeConsistency: number;
+      seasonalVariation: number;
+    };
+    communication: {
+      verbosity: number;
+      complaintTendency: number;
+      tipGenerosity: number;
+    };
+    satisfaction: {
+      baseThreshold: number;
+      toleranceRange: number;
+      memoryDecay: number;
+    };
+  };
+  
+  dialogue: {
+    greetings: string[];
+    orders: string[];
+    reactions: {
+      satisfied: string[];
+      dissatisfied: string[];
+      priceReaction: string[];
+    };
+  };
+  
+  personalStory: string;
+  
+  unlockConditions: {
+    storyMode: boolean;
+    reputation: number;
+    special: string[];
+  };
 }
 
 export interface CustomerOrder {
@@ -197,6 +278,18 @@ export interface CustomerOrder {
     dueDate: Date;
     flexibility: number; // days flexibility
   };
+}
+
+// Simple order interface for game use
+export interface Order {
+  id: string;
+  customer: CustomerProfile;
+  items: any[];
+  totalPrice: number;
+  status: 'pending' | 'in-progress' | 'completed' | 'cancelled';
+  timestamp: number;
+  preferences: any;
+  deadline: number;
 }
 
 // ===== GAME STATE TYPES =====
@@ -265,16 +358,18 @@ export interface GameState {
 
 // ===== SCENE TYPES =====
 
-export enum SceneKeys {
-  BOOT = 'boot',
-  MAIN_MENU = 'main-menu',
-  COFFEE_MARKET = 'coffee-market',
-  ROASTING_LAB = 'roasting-lab',
-  ANALYSIS = 'analysis',
-  ORDER_MANAGEMENT = 'order-management',
-  SETTINGS = 'settings',
-  TUTORIAL = 'tutorial'
-}
+export const SceneKeys = {
+  BOOT: 'boot',
+  MAIN_MENU: 'main-menu',
+  COFFEE_MARKET: 'coffee-market',
+  ROASTING_LAB: 'roasting-lab',
+  ANALYSIS: 'analysis',
+  ORDER_MANAGEMENT: 'order-management',
+  SETTINGS: 'settings',
+  TUTORIAL: 'tutorial'
+} as const;
+
+export type SceneKey = typeof SceneKeys[keyof typeof SceneKeys];
 
 // ===== UI TYPES =====
 
@@ -329,6 +424,19 @@ export interface SessionMetrics {
 }
 
 // ===== QUALITY CALCULATION TYPES =====
+
+export interface CoffeeQualityScore {
+  overall: number; // 0-10 overall quality score
+  acidity: number; // 0-10 acidity level
+  bitterness: number; // 0-10 bitterness level  
+  sweetness: number; // 0-10 sweetness level
+  body: number; // 0-10 body/mouthfeel
+  aroma: number; // 0-10 aroma intensity
+  balance: number; // 0-10 flavor balance
+  finish: number; // 0-10 aftertaste quality
+  defects: string[]; // Array of detected defects
+  notes: string[]; // Tasting notes
+}
 
 export interface QualityFactors {
   beanQuality: number; // inherent bean quality (60-95)

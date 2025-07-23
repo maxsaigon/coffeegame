@@ -1,5 +1,5 @@
 export class CoffeeChemistry {
-    static calculateFlavor(temperature: number, time: number) {
+    static calculateFlavor(temperature: number, _time: number) {
         let flavor = {
             acidity: 0,
             sweetness: 0,
