@@ -24,24 +24,27 @@ export class GameScene extends Phaser.Scene {
 
   constructor() {
     super({ key: SceneKeys.ROASTING_LAB });
+    console.log('GameScene constructor called');
   }
 
   preload() {
-    // Load game assets
-    this.load.image('coffee-bean', 'assets/images/coffee-bean.png');
-    this.load.image('roasting-drum', 'assets/images/roasting-drum.png');
-    this.load.image('customer-sprite', 'assets/images/customer.png');
-    this.load.image('background', 'assets/images/coffee-shop-bg.png');
+    // Game assets are loaded by LoadingScene, no need to reload here
+    // this.load.image('coffee-bean', 'assets/images/coffee-bean.png');
+    // this.load.image('roasting-drum', 'assets/images/roasting-drum.png');
+    // this.load.image('customer-sprite', 'assets/images/customer.png');
+    // this.load.image('background', 'assets/images/coffee-shop-bg.png');
     
-    // Load audio
-    this.load.audio('background-music', 'assets/audio/coffee-shop-ambient.mp3');
-    this.load.audio('roasting-sound', 'assets/audio/roasting.mp3');
-    this.load.audio('customer-arrive', 'assets/audio/bell.mp3');
+    // Load audio (temporarily disabled)
+    // this.load.audio('background-music', 'assets/audio/coffee-shop-ambient.mp3');
+    // this.load.audio('roasting-sound', 'assets/audio/roasting.mp3');
+    // this.load.audio('customer-arrive', 'assets/audio/bell.mp3');
   }
 
   create() {
-    // Initialize background
-    this.add.image(this.scale.width / 2, this.scale.height / 2, 'background');
+    console.log('GameScene create started');
+    
+    // Initialize background with color instead of image for now
+    this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x8B4513);
     
     // Initialize managers
     this.audioManager = new AudioManager(this);

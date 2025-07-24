@@ -363,6 +363,7 @@ export const SceneKeys = {
   MAIN_MENU: 'main-menu',
   COFFEE_MARKET: 'coffee-market',
   ROASTING_LAB: 'roasting-lab',
+  SIMPLE_GAME: 'simple-game',
   ANALYSIS: 'analysis',
   ORDER_MANAGEMENT: 'order-management',
   SETTINGS: 'settings',

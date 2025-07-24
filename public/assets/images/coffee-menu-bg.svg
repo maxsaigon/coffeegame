@@ -1,0 +1,10 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="menubg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#CD853F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#menubg)"/>
+  <text x="400" y="300" text-anchor="middle" fill="white" font-size="32">Coffee Roaster Menu</text>
+</svg>

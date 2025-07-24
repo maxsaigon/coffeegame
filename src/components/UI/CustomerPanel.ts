@@ -9,9 +9,12 @@ export class CustomerPanel extends Phaser.GameObjects.Container {
         super(scene, x, y);
         scene.add.existing(this);
 
-        const background = scene.add.rectangle(0, 0, 400, 150, 0x000000, 0.8);
-        background.setOrigin(0, 0);
-        this.add(background);
+        const panelBackground = scene.add.graphics();
+        panelBackground.fillStyle(UITheme.colors.primary, 0.9);
+        panelBackground.fillRoundedRect(0, 0, 400, 150, 10);
+        panelBackground.lineStyle(2, UITheme.colors.secondary, 1);
+        panelBackground.strokeRoundedRect(0, 0, 400, 150, 10);
+        this.add(panelBackground);
 
         this.customerNameText = scene.add.text(20, 20, 'Customer Name:', {
             fontSize: '24px',
@@ -27,13 +30,13 @@ export class CustomerPanel extends Phaser.GameObjects.Container {
         });
         this.add(this.customerOrderText);
 
-        this.setPosition(scene.scale.width / 2 - 200, scene.scale.height - 150);
+        this.setPosition(scene.scale.width / 2 - 200, scene.scale.height - 170);
         this.setVisible(false);
     }
 
     updateCustomerInfo(name: string, order: string) {
-        this.customerNameText.setText(`Customer Name: ${name}`);
-        this.customerOrderText.setText(`Order: ${order}`);
+        this.customerNameText.setText(`Customer: ${name}`);
+        this.customerOrderText.setText(`Wants: ${order}`);
         this.setVisible(true);
     }
 

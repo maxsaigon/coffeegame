@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Game Debug</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #game {
+            border: 2px solid #444;
+            margin-bottom: 20px;
+        }
+        #debug-info {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .error {
+            color: #ff6b6b;
+        }
+        .success {
+            color: #51cf66;
+        }
+        .warning {
+            color: #ffd43b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coffee Roaster Game - Debug Mode</h1>
+    <div id="debug-info">
+        <h3>Debug Console:</h3>
+        <div id="console-output"></div>
+    </div>
+    <div id="game"></div>
+
+    <script>
+        // Override console methods to capture output
+        const consoleOutput = document.getElementById('console-output');
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        function addToConsole(message, type = 'log') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'success');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole(args.join(' '), 'warning');
+        };
+
+        // Capture uncaught errors
+        window.addEventListener('error', function(event) {
+            addToConsole(`ERROR: ${event.error.message} at ${event.filename}:${event.lineno}`, 'error');
+        });
+
+        // Load the game
+        console.log('Loading Coffee Roaster Game...');
+        
+        // Create iframe to load the game
+        const iframe = document.createElement('iframe');
+        iframe.src = 'http://localhost:5173';
+        iframe.width = '800';
+        iframe.height = '600';
+        iframe.style.border = 'none';
+        document.getElementById('game').appendChild(iframe);
+        
+        console.log('Game loaded in iframe');
+    </script>
+</body>
+</html>

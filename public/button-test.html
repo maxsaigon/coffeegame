@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #1a1a1a; color: white; }
+        #button-test { border: 2px solid #444; }
+        #debug { background: #333; padding: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Button Click Test</h1>
+    <div id="debug">
+        <h3>Debug Output:</h3>
+        <div id="console-output"></div>
+    </div>
+    <div id="button-test"></div>
+    
+    <script type="module">
+        import Phaser from './node_modules/phaser/dist/phaser.esm.js';
+        
+        // Override console.log to show output
+        const consoleOutput = document.getElementById('console-output');
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${args.join(' ')}`;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        class ButtonTestScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'ButtonTestScene' });
+            }
+            
+            create() {
+                console.log('ButtonTestScene created');
+                
+                // Background
+                this.add.rectangle(400, 300, 800, 600, 0x2c1810);
+                
+                // Title
+                this.add.text(400, 150, 'Button Click Test', {
+                    fontSize: '48px',
+                    color: '#ffffff'
+                }).setOrigin(0.5);
+                
+                // Test button 1
+                const button1 = this.add.text(400, 250, 'Test Button 1', {
+                    fontSize: '32px',
+                    color: '#ffffff',
+                    backgroundColor: '#4a4a4a',
+                    padding: { x: 20, y: 10 }
+                }).setOrigin(0.5);
+                
+                button1.setInteractive({ useHandCursor: true });
+                
+                button1.on('pointerover', () => {
+                    button1.setStyle({ backgroundColor: '#6a6a6a' });
+                    console.log('Button 1 hover');
+                });
+                
+                button1.on('pointerout', () => {
+                    button1.setStyle({ backgroundColor: '#4a4a4a' });
+                });
+                
+                button1.on('pointerdown', () => {
+                    console.log('Button 1 clicked!');
+                    button1.setStyle({ backgroundColor: '#8a8a8a' });
+                });
+                
+                button1.on('pointerup', () => {
+                    button1.setStyle({ backgroundColor: '#6a6a6a' });
+                });
+                
+                // Test button 2
+                const button2 = this.add.text(400, 350, 'Test Button 2', {
+                    fontSize: '32px',
+                    color: '#ffffff',
+                    backgroundColor: '#8B4513',
+                    padding: { x: 20, y: 10 }
+                }).setOrigin(0.5);
+                
+                button2.setInteractive({ useHandCursor: true });
+                
+                button2.on('pointerover', () => {
+                    button2.setStyle({ backgroundColor: '#d4af37' });
+                    console.log('Button 2 hover');
+                });
+                
+                button2.on('pointerout', () => {
+                    button2.setStyle({ backgroundColor: '#8B4513' });
+                });
+                
+                button2.on('pointerdown', () => {
+                    console.log('Button 2 clicked!');
+                    console.log('Testing scene transition...');
+                    // Simulate scene transition
+                    this.add.text(400, 450, 'Scene would transition here!', {
+                        fontSize: '24px',
+                        color: '#00ff00'
+                    }).setOrigin(0.5);
+                });
+                
+                console.log('Buttons created and events attached');
+            }
+        }
+        
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'button-test',
+            backgroundColor: '#2c3e50',
+            scene: ButtonTestScene
+        };
+        
+        console.log('Creating button test game...');
+        const game = new Phaser.Game(config);
+    </script>
+</body>
+</html>

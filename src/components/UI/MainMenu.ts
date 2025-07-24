@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { UITheme } from '../../styles/UITheme';
+import { SceneKeys } from '../../types/GameTypes';
 
 export class MainMenu extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -18,30 +19,52 @@ export class MainMenu extends Phaser.GameObjects.Container {
         title.setOrigin(0.5);
         this.add(title);
 
-        const startButton = scene.add.text(scene.scale.width / 2, scene.scale.height * 0.5, 'Start Game', {
-            fontSize: '32px',
-            color: UITheme.colors.text,
-            fontFamily: UITheme.fonts.main
-        });
-        startButton.setOrigin(0.5);
-        startButton.setInteractive();
-        startButton.on('pointerdown', () => {
-            console.log('Start Game clicked');
-            // Transition to GameScene
+        const startButton = this.createButton(scene.scale.width / 2, scene.scale.height * 0.5, 'Start Game', () => {
+            console.log('Start Game clicked - transitioning to tutorial');
+            scene.scene.start(SceneKeys.TUTORIAL);
         });
         this.add(startButton);
 
-        const optionsButton = scene.add.text(scene.scale.width / 2, scene.scale.height * 0.6, 'Options', {
-            fontSize: '32px',
+        const optionsButton = this.createButton(scene.scale.width / 2, scene.scale.height * 0.6, 'Options', () => {
+            console.log('Options clicked - showing options menu');
+            scene.scene.start(SceneKeys.ROASTING_LAB);
+        });
+        this.add(optionsButton);
+    }
+
+    private createButton(x: number, y: number, text: string, onClick: () => void): Phaser.GameObjects.Container {
+        const button = this.scene.add.container(x, y);
+
+        const buttonBackground = this.scene.add.graphics();
+        buttonBackground.fillStyle(UITheme.colors.primary, 1);
+        buttonBackground.fillRoundedRect(-100, -25, 200, 50, 10);
+        button.add(buttonBackground);
+
+        const buttonText = this.scene.add.text(0, 0, text, {
+            fontSize: '24px',
             color: UITheme.colors.text,
             fontFamily: UITheme.fonts.main
         });
-        optionsButton.setOrigin(0.5);
-        optionsButton.setInteractive();
-        optionsButton.on('pointerdown', () => {
-            console.log('Options clicked');
-            // Show options menu
+        buttonText.setOrigin(0.5);
+        button.add(buttonText);
+
+        button.setSize(200, 50);
+        button.setInteractive({ useHandCursor: true });
+
+        button.on('pointerover', () => {
+            buttonBackground.clear();
+            buttonBackground.fillStyle(UITheme.colors.secondary, 1);
+            buttonBackground.fillRoundedRect(-100, -25, 200, 50, 10);
         });
-        this.add(optionsButton);
+
+        button.on('pointerout', () => {
+            buttonBackground.clear();
+            buttonBackground.fillStyle(UITheme.colors.primary, 1);
+            buttonBackground.fillRoundedRect(-100, -25, 200, 50, 10);
+        });
+
+        button.on('pointerdown', onClick);
+
+        return button;
     }
 }

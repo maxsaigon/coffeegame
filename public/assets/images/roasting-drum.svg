@@ -1,0 +1,5 @@
+<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="100" cy="60" rx="90" ry="50" fill="#654321"/>
+  <ellipse cx="100" cy="60" rx="80" ry="40" fill="#8B4513"/>
+  <text x="100" y="65" text-anchor="middle" fill="white" font-size="12">Roasting Drum</text>
+</svg>

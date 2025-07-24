@@ -7,6 +7,7 @@ import Phaser from 'phaser';
 import { TutorialManager } from '../components/TutorialManager';
 import { CoffeeBean } from '../components/CoffeeBean';
 import { RoastingDrum } from '../components/RoastingDrum';
+import { SceneKeys } from '../types/GameTypes';
 import type { CoffeeBeanVariety } from '../types/GameTypes';
 
 export class TutorialScene extends Phaser.Scene {
@@ -22,10 +23,13 @@ export class TutorialScene extends Phaser.Scene {
   private playerExperience: string = 'beginner'; // beginner, intermediate, experienced
   
   constructor() {
-    super({ key: 'TutorialScene' });
+    super({ key: SceneKeys.TUTORIAL });
+    console.log('TutorialScene constructor called');
   }
 
   create(): void {
+    console.log('TutorialScene create started');
+    
     this.createBackground();
     this.createTutorialEnvironment();
     this.createUI();
@@ -35,7 +39,7 @@ export class TutorialScene extends Phaser.Scene {
     // Add skip option
     this.createSkipButton();
     
-    console.log('Tutorial Scene created');
+    console.log('TutorialScene created successfully');
   }
 
   private createBackground(): void {

@@ -92,6 +92,9 @@ export class RoastingDrum extends Phaser.GameObjects.Container {
   }
 
   private createParticleEffects(): void {
+    // Temporarily disabled for testing - particles need texture assets
+    console.log('Particle effects disabled for testing');
+    /*
     // Heat/flame particles for when heating is active
     if (this.scene.add.particles) {
       const flameParticles = this.scene.add.particles(0, 60, 'spark', {
@@ -116,6 +119,7 @@ export class RoastingDrum extends Phaser.GameObjects.Container {
       steamParticles.stop();
       this.steamEmitter = steamParticles;
     }
+    */
   }
 
   private updateHeatingElement(): void {

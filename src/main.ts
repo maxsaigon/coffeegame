@@ -6,9 +6,11 @@
 import './style.css';
 import Phaser from 'phaser';
 import { LoadingScene } from './scenes/LoadingScene';
-import { MenuScene } from './scenes/MenuScene';
-import { GameScene } from './scenes/GameScene';
-import { TutorialScene } from './scenes/TutorialScene';
+import { SimpleMenuScene } from './scenes/SimpleMenuScene';
+import { SimpleGameScene } from './scenes/SimpleGameScene';
+import { SimpleTutorialScene } from './scenes/SimpleTutorialScene';
+import { CoffeeMarketScene } from './scenes/CoffeeMarketScene';
+import { RoastingLabScene } from './scenes/RoastingLabScene';
 
 // Game configuration
 const gameConfig: Phaser.Types.Core.GameConfig = {
@@ -41,67 +43,25 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   scene: [
     LoadingScene,
-    MenuScene,
-    GameScene,
-    TutorialScene
+    SimpleMenuScene,
+    SimpleGameScene,
+    SimpleTutorialScene,
+    CoffeeMarketScene,
+    RoastingLabScene
   ]
 };
 
 // Initialize the game
-class CoffeeRoasterGame {
-  private game: Phaser.Game;
+console.log('Starting Coffee Roaster Game...');
 
-  constructor() {
-    console.log('Initializing Coffee Roaster Game...');
-    
-    // Create game container in HTML
-    this.createGameContainer();
-    
-    // Initialize Phaser game
-    this.game = new Phaser.Game(gameConfig);
-    
-    // Add error handling
-    this.setupErrorHandling();
-    
-    console.log('Coffee Roaster Game initialized successfully!');
-  }
+// Create Phaser game
+const game = new Phaser.Game(gameConfig);
 
-  private createGameContainer(): void {
-    const app = document.querySelector<HTMLDivElement>('#app')!;
-    app.innerHTML = `
-      <div id="game-container">
-        <div id="game-title">
-          <h1>☕ Coffee Roaster</h1>
-          <p>Professional Coffee Simulation Game</p>
-        </div>
-        <div id="game-canvas"></div>
-        <div id="game-info">
-          <p>Loading game assets...</p>
-        </div>
-      </div>
-    `;
-  }
+console.log('Phaser game instance created', game);
 
-  private setupErrorHandling(): void {
-    this.game.events.on('ready', () => {
-      console.log('Game ready - starting loading scene');
-      const info = document.querySelector('#game-info p');
-      if (info) info.textContent = 'Game loaded successfully!';
-    });
-
-    window.addEventListener('error', (error) => {
-      console.error('Game error:', error);
-      const info = document.querySelector('#game-info p');
-      if (info) info.textContent = 'Error loading game. Please refresh the page.';
-    });
-  }
-
-  public getGame(): Phaser.Game {
-    return this.game;
-  }
-}
-
-// Start the game when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  new CoffeeRoasterGame();
+// Basic error handling
+window.addEventListener('error', (error) => {
+  console.error('Game error:', error.message, error.filename, error.lineno);
 });
+
+console.log('Game initialization complete');

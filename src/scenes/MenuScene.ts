@@ -14,33 +14,36 @@ export class MenuScene extends Phaser.Scene {
 
   constructor() {
     super({ key: SceneKeys.MAIN_MENU });
+    console.log('MenuScene constructor called');
   }
 
   preload() {
-    // Load menu assets
-    this.load.image('menu-background', 'assets/images/coffee-menu-bg.jpg');
-    this.load.image('logo', 'assets/images/coffee-roaster-logo.png');
+    // Menu assets are loaded by LoadingScene, no need to reload here
+    // this.load.image('menu-background', 'assets/images/coffee-menu-bg.jpg');
+    // this.load.image('logo', 'assets/images/coffee-roaster-logo.png');
     
-    // Load menu audio
-    this.load.audio('menu-music', 'assets/audio/menu-theme.mp3');
-    this.load.audio('button-click', 'assets/audio/button-click.wav');
-    this.load.audio('button-hover', 'assets/audio/button-hover.wav');
+    // Load menu audio (temporarily disabled)
+    // this.load.audio('menu-music', 'assets/audio/menu-theme.mp3');
+    // this.load.audio('button-click', 'assets/audio/button-click.wav');
+    // this.load.audio('button-hover', 'assets/audio/button-hover.wav');
     
-    // Load loading screen assets for next scene
-    this.load.image('loading-bg', 'assets/images/loading-background.jpg');
-    this.load.image('loading-spinner', 'assets/images/coffee-bean-spinner.png');
+    // Load loading screen assets for next scene (temporarily disabled)
+    // this.load.image('loading-bg', 'assets/images/loading-background.jpg');
+    // this.load.image('loading-spinner', 'assets/images/coffee-bean-spinner.png');
   }
 
   create() {
-    // Create background
-    const background = this.add.image(this.scale.width / 2, this.scale.height / 2, 'menu-background');
-    background.setDisplaySize(this.scale.width, this.scale.height);
+    console.log('MenuScene create started');
+    
+    // Create background with color instead of image for now
+    this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x2c1810);
     
     // Initialize audio manager
     this.audioManager = new AudioManager(this);
     
     // Create main menu UI
     this.mainMenu = new MainMenu(this, 0, 0);
+    console.log('MainMenu created');
     
     // Setup menu interactions
     this.setupMenuInteractions();

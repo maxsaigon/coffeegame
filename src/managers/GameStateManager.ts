@@ -165,7 +165,7 @@ export class GameStateManager {
   }
 
   public getInventory(): any {
-    return { ...this.gameState.inventory };
+    return this.gameState.inventory;
   }
 
   public getEquipment(): any {
@@ -269,6 +269,17 @@ export class GameStateManager {
     }
     
     return found;
+  }
+
+  public clearInventory(): void {
+    console.log('DEBUG: Clearing all inventory items');
+    this.gameState.inventory.greenBeans = [];
+    this.gameState.inventory.roastedBeans = [];
+    this.gameState.inventory.equipment = [];
+    this.gameState.inventory.supplies = [];
+    
+    this.notifyStateChange('inventory');
+    this.autoSave();
   }
 
   public advanceDay(): void {
